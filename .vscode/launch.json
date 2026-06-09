@@ -1,0 +1,41 @@
+﻿{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Godot: Open Editor",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceFolder}/tools/windows/runtime/godot/Godot_v4.x.exe",
+      "runtimeArgs": [
+        "--editor",
+        "--path",
+        "${workspaceFolder}/game"
+      ],
+      "cwd": "${workspaceFolder}/game",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Godot: Run Game",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceFolder}/tools/windows/runtime/godot/Godot_v4.x.exe",
+      "runtimeArgs": [
+        "--path",
+        "${workspaceFolder}/game"
+      ],
+      "cwd": "${workspaceFolder}/game",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Godot: Check Then Package",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceFolder}/tools/windows/package_windows.cmd",
+      "runtimeArgs": [
+        "-CheckThenPackage"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

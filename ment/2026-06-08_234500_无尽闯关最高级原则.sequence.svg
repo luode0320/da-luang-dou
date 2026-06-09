@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="560" viewBox="0 0 1040 560" role="img" aria-labelledby="title desc">
+  <title id="title">无尽闯关最高级原则时序图</title>
+  <desc id="desc">展示玩家、游戏循环、角色系统、永久道具池、统一时间倍率、存档和阶段系统之间的交互顺序。</desc>
+  <rect width="1040" height="560" fill="#FFFFFF"/>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#374151"/>
+    </marker>
+    <style>
+      .actor { fill: #F8FAFC; stroke: #334155; stroke-width: 2; rx: 8; }
+      .life { stroke: #CBD5E1; stroke-width: 2; stroke-dasharray: 6 6; }
+      .msg { stroke: #374151; stroke-width: 2; marker-end: url(#arrow); }
+      .return { stroke: #64748B; stroke-width: 2; stroke-dasharray: 5 5; marker-end: url(#arrow); }
+      .text { font-family: Arial, sans-serif; font-size: 16px; fill: #111827; text-anchor: middle; dominant-baseline: middle; }
+      .label { font-family: Arial, sans-serif; font-size: 14px; fill: #111827; text-anchor: middle; }
+    </style>
+  </defs>
+  <text x="520" y="34" class="text">无尽闯关最高级原则时序</text>
+
+  <rect x="20" y="70" width="120" height="48" class="actor"/>
+  <text x="80" y="94" class="text">玩家</text>
+  <rect x="170" y="70" width="120" height="48" class="actor"/>
+  <text x="230" y="94" class="text">游戏循环</text>
+  <rect x="320" y="70" width="120" height="48" class="actor"/>
+  <text x="380" y="94" class="text">角色系统</text>
+  <rect x="470" y="70" width="120" height="48" class="actor"/>
+  <text x="530" y="94" class="text">永久道具池</text>
+  <rect x="620" y="70" width="120" height="48" class="actor"/>
+  <text x="680" y="94" class="text">统一倍率</text>
+  <rect x="770" y="70" width="120" height="48" class="actor"/>
+  <text x="830" y="94" class="text">存档</text>
+  <rect x="900" y="70" width="120" height="48" class="actor"/>
+  <text x="960" y="94" class="text">阶段系统</text>
+
+  <line x1="80" y1="118" x2="80" y2="520" class="life"/>
+  <line x1="230" y1="118" x2="230" y2="520" class="life"/>
+  <line x1="380" y1="118" x2="380" y2="520" class="life"/>
+  <line x1="530" y1="118" x2="530" y2="520" class="life"/>
+  <line x1="680" y1="118" x2="680" y2="520" class="life"/>
+  <line x1="830" y1="118" x2="830" y2="520" class="life"/>
+  <line x1="960" y1="118" x2="960" y2="520" class="life"/>
+
+  <line x1="80" y1="145" x2="230" y2="145" class="msg"/>
+  <text x="155" y="133" class="label">启动游戏</text>
+
+  <line x1="80" y1="185" x2="230" y2="185" class="msg"/>
+  <text x="155" y="173" class="label">选择存档槽</text>
+
+  <line x1="230" y1="225" x2="830" y2="225" class="msg"/>
+  <text x="530" y="213" class="label">读取该存档槽进度</text>
+
+  <line x1="830" y1="265" x2="230" y2="265" class="return"/>
+  <text x="530" y="253" class="label">返回当前进度</text>
+
+  <line x1="80" y1="305" x2="380" y2="305" class="msg"/>
+  <text x="230" y="293" class="label">选角色或沿用当前角色</text>
+
+  <line x1="380" y1="345" x2="230" y2="345" class="return"/>
+  <text x="305" y="333" class="label">固定武器与固定技能</text>
+
+  <line x1="80" y1="385" x2="530" y2="385" class="msg"/>
+  <text x="305" y="373" class="label">搭配永久道具</text>
+
+  <line x1="530" y1="425" x2="230" y2="425" class="return"/>
+  <text x="380" y="413" class="label">返回阶段上限内配置</text>
+
+  <line x1="230" y1="465" x2="960" y2="465" class="msg"/>
+  <text x="595" y="453" class="label">计算下一关与阶段</text>
+
+  <line x1="230" y1="500" x2="530" y2="500" class="msg"/>
+  <text x="380" y="488" class="label">金币抽取永久道具</text>
+
+  <line x1="530" y1="530" x2="830" y2="530" class="msg"/>
+  <text x="680" y="518" class="label">保存永久道具与通关进度</text>
+</svg>

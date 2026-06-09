@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dev_level_launcher"]
+
+[ext_resource type="Script" path="res://scripts/ui/dev_level_launcher.gd" id="1_script"]
+
+[node name="DevLevelLauncher" type="Control"]
+script = ExtResource("1_script")

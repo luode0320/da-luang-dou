@@ -1,0 +1,18 @@
+# Godot local import/cache outputs
+game/.godot/
+game/.import/
+
+# Local build outputs
+build/*
+!build/README.md
+
+# Windows installer temporary outputs
+*.tmp
+*.log
+
+build/installer/*
+build/installer-test/*
+build/Windows/*
+
+tools/*
+tools.zip

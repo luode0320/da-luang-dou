@@ -1,0 +1,34 @@
+{
+  "characters": [
+    {
+      "id": "runner",
+      "name_key": "character.runner.name",
+      "weapon": {
+        "id": "spark_pistol",
+        "name_key": "weapon.spark_pistol.name",
+        "cooldown_seconds": 0.85,
+        "damage": 6
+      },
+      "skill": {
+        "id": "quick_step",
+        "name_key": "skill.quick_step.name",
+        "description_key": "skill.quick_step.desc"
+      }
+    },
+    {
+      "id": "guard",
+      "name_key": "character.guard.name",
+      "weapon": {
+        "id": "iron_ring",
+        "name_key": "weapon.iron_ring.name",
+        "cooldown_seconds": 1.15,
+        "damage": 9
+      },
+      "skill": {
+        "id": "steady_guard",
+        "name_key": "skill.steady_guard.name",
+        "description_key": "skill.steady_guard.desc"
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://hit_effect"]
+
+[node name="HitEffect" type="Node2D"]
+
+[node name="Flash" type="ColorRect" parent="."]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(1, 1, 1, 0.7)

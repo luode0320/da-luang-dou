@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://coin_drop_scene"]
+
+[ext_resource type="Script" path="res://scripts/battle/coin_drop.gd" id="1_script"]
+
+[node name="CoinDrop" type="Area2D"]
+script = ExtResource("1_script")
+
+[node name="Body" type="ColorRect" parent="."]
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+color = Color(1, 0.85, 0.25, 1)

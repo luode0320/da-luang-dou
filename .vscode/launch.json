@@ -2,24 +2,26 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Godot: Run Game",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceFolder}/tools/windows/runtime/godot/Godot_v4.x.exe",
+      "runtimeArgs": [
+        "--path",
+        "${workspaceFolder}/game",
+        "--scene",
+        "res://scenes/app/Main.tscn"
+      ],
+      "cwd": "${workspaceFolder}/game",
+      "console": "integratedTerminal"
+    },
+    {
       "name": "Godot: Open Editor",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "${workspaceFolder}/tools/windows/runtime/godot/Godot_v4.x.exe",
       "runtimeArgs": [
         "--editor",
-        "--path",
-        "${workspaceFolder}/game"
-      ],
-      "cwd": "${workspaceFolder}/game",
-      "console": "integratedTerminal"
-    },
-    {
-      "name": "Godot: Run Game",
-      "type": "node",
-      "request": "launch",
-      "runtimeExecutable": "${workspaceFolder}/tools/windows/runtime/godot/Godot_v4.x.exe",
-      "runtimeArgs": [
         "--path",
         "${workspaceFolder}/game"
       ],

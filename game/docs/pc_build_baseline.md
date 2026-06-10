@@ -8,7 +8,7 @@
 - Windows 导出预设：`game/export_presets.cfg`
 - 默认窗口：1280x720
 - 拉伸策略：`canvas_items` + `keep`
-- 输入：WASD 移动，`+` 提高倍率，`-` 降低倍率
+- 输入：WASD/方向键移动，主键盘和小键盘 `+/-` 按 1x、2x、3x 循环调速，ESC 暂停
 - HUD：显示关卡、时间、倍率、击败数和金币
 
 ## Demo 完成度底线

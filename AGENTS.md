@@ -12,20 +12,38 @@
 - 主游戏工程位于 `game/`，第一阶段起使用 Godot 4，不使用 CSS/Web 作为主游戏实现。
 - 本项目默认通过 AI 辅助构建 Godot 游戏工程，后续实现优先使用 Godot 编辑器、Godot AI 插件、Godot 场景和 GDScript 资产链路推进。
 
+## 会话启动检查
+
+- 每个新会话开始处理项目任务前，必须先检查当前工作目录是否为仓库根目录，并确认 Codex 能正常读取文件和执行本地命令。
+- 涉及 Godot 工程、场景、资源、脚本、运行验证或截图的任务，必须先检查 Godot AI MCP 是否已连接可用，并读取 Godot 编辑器状态。
+- Godot AI MCP 检查至少包含：当前项目名、当前场景、编辑器 readiness、是否正在运行游戏、`game_capture_ready` 状态。
+- 若 Godot AI MCP 不可用或编辑器未 ready，先记录阻断原因并尝试通过重启 Godot 编辑器、重载 Godot AI 插件或重新连接 MCP 恢复；恢复前不要直接修改 Godot 场景或运行验证。
+- 若当前任务只修改纯文档且不依赖 Godot 运行态，可跳过 Godot AI MCP 连接检查，但最终回复需说明未检查原因。
+
 ## 素材获取规则
 
 - 后续 AI 构建项目时，游戏素材优先从以下网站检索和筛选：
   - Kenney：`https://kenney.nl/assets`
-  - itch.io 免费 2D 素材：`https://itch.io/game-assets/free/tag-2d`
-  - itch.io 免费 Godot 素材：`https://itch.io/game-assets/free/tag-godot`
   - OpenGameArt：`https://opengameart.org/`
-  - Godot Asset Library：`https://godotengine.org/asset-library/asset`
-  - GodotAssetLibrary.com：`https://godotassetlibrary.com/`
+  - Godot 官方 Demo Projects：`https://github.com/godotengine/godot-demo-projects`
+  - Quaternius：`https://quaternius.com/`
+  - KayKit 官方资源：`https://kaylousberg.com/game-assets`
+  - KayKit GitHub 资源：`https://github.com/KayKit-Game-Assets`
+  - Poly Haven：`https://polyhaven.com/`
+  - ambientCG：`https://ambientcg.com/`
+- AI 自动接入素材时，优先选择无需登录、无需付费、无需验证码、无需人工点击动态下载按钮的直接下载来源；若素材需要账号登录、邮箱订阅、购买流程、购物车结算或人工授权确认，只能记录为人工下载候选，不能作为 AI 自动接入方案。
+- 无需登录的素材来源优先级：Kenney 官方资产页、OpenGameArt 单素材附件、Godot 官方 Demo Projects、带明确许可证的 GitHub/GitLab 仓库或 Release、Quaternius / KayKit 等可直接下载且许可证清晰的作者官网、Poly Haven / ambientCG 等 CC0 材质与环境资源站。
+- 不把 itch.io、CraftPix、Godot Asset Library、GodotAssetLibrary.com 作为 AI 自动接入优先来源；除非用户已经手动提供素材文件，否则不要基于这些需要登录、动态下载或编辑器流程的网站制定实施方案。
+- 为项目添加 Godot 场景、角色、地图、音效、字体或 UI 等素材时，必须优先从上述素材获取规则网站中检索合规素材；只有在找不到合适素材、授权不满足要求或当前任务需要临时占位时，才使用项目原创素材作为兜底方案。
+- 素材选择以免费资源为主，默认不要选择付费素材；除非用户明确确认可购买，付费素材只能作为参考方向，不能作为当前实施方案。
 - 选材优先级：优先选择 `CC0`、`MIT`、`Apache-2.0` 等可商用且限制少的素材。
 - 使用 `CC-BY` 素材时必须记录作者、来源链接和署名要求。
 - 默认避免使用 `GPL`、`CC-BY-SA` 或授权不清的美术、音效和字体素材，除非用户明确确认可接受对应再分发要求。
 - 同一阶段尽量使用 1-2 个主风格素材包，避免混用过多作者导致画面风格割裂。
 - 下载或导入素材前必须先记录素材来源、许可证和用途，禁止把来源不明的素材直接放入工程。
+- 美术风格默认对标《土豆兄弟》这类成品化俯视角自动射击游戏：画面应具备现代、清晰、完整的商业游戏观感，避免只达到原型或占位素材精度。
+- 默认不选择像素风素材作为角色、怪物、地图、武器、子弹、UI 的主视觉资源；除非用户明确要求像素风，否则优先选择非像素的卡通、手绘、矢量、高清 2D 或 2.5D 质感素材。
+- 评估素材时必须同时看截图观感、动画完整度、地图/角色/特效风格统一度和 Godot 接入成本，不能只因授权合规或素材数量多就选用。
 
 ## 注释任务强制流程
 

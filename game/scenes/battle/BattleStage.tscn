@@ -1,39 +1,63 @@
-[gd_scene load_steps=4 format=3 uid="uid://battle_stage"]
+[gd_scene load_steps=6 format=3 uid="uid://battle_stage"]
 
 [ext_resource type="Script" path="res://scripts/battle/battle_stage.gd" id="1_battle"]
 [ext_resource type="Script" path="res://scripts/battle/player_controller.gd" id="2_player"]
 [ext_resource type="Script" path="res://scripts/battle/arena_background.gd" id="3_arena_bg"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player_runner.svg" id="4_player_texture"]
+[ext_resource type="Texture2D" path="res://assets/maps/arena_kenney_open_grass.png" id="5_map_texture"]
 
 [node name="BattleStage" type="Node2D"]
+top_level = true
 script = ExtResource("1_battle")
 
-[node name="ArenaBackground" type="Node2D" parent="."]
-script = ExtResource("3_arena_bg")
+[node name="Arena" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(640, 360)
+scale = Vector2(1.231, 1.309)
+texture = ExtResource("5_map_texture")
 
-[node name="Arena" type="ColorRect" parent="."]
-offset_left = 120.0
-offset_top = 110.0
-offset_right = 1160.0
-offset_bottom = 660.0
-color = Color(0.08, 0.095, 0.08, 0.18)
+[node name="ArenaBackground" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_arena_bg")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(640, 360)
 script = ExtResource("2_player")
 
-[node name="PlayerBody" type="ColorRect" parent="Player"]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.9, 0.75, 0.35, 1)
+[node name="Body" type="Sprite2D" parent="Player"]
+texture = ExtResource("4_player_texture")
+scale = Vector2(0.62, 0.62)
 
-[node name="BattleInfo" type="Label" parent="."]
+[node name="BattleCamera" type="Camera2D" parent="Player"]
 unique_name_in_owner = true
-offset_left = 135.0
-offset_top = 122.0
-offset_right = 800.0
-offset_bottom = 154.0
+
+[node name="HudLayer" type="CanvasLayer" parent="."]
+
+[node name="BattleInfo" type="Label" parent="HudLayer"]
+unique_name_in_owner = true
+offset_left = 24.0
+offset_top = 18.0
+offset_right = 1180.0
+offset_bottom = 50.0
 theme_override_font_sizes/font_size = 18
 text = "Level 1 | 0s | 1x"
+
+[node name="LevelToast" type="Label" parent="HudLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -38.0
+offset_right = 180.0
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 36
+text = "进入第 2 关"
+horizontal_alignment = 1
+vertical_alignment = 1

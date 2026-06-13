@@ -1,6 +1,15 @@
 extends CharacterBody2D
 
+const ENEMY_TEXTURES := {
+	"chaser": preload("res://assets/sprites/enemy_chaser.svg"),
+	"zigzag": preload("res://assets/sprites/enemy_zigzag.svg"),
+	"charger": preload("res://assets/sprites/enemy_charger.svg"),
+	"splitter": preload("res://assets/sprites/enemy_splitter.svg")
+}
+
 @export var move_speed := 120.0
+@onready var body_sprite: Sprite2D = $Body
+
 var enemy_id := "chaser"
 var hp := 10
 var target: Node2D
@@ -8,13 +17,14 @@ var target: Node2D
 ## 初始化怪物目标。
 ## [参数] player：玩家节点；enemy_data：怪物配置。
 ## [返回] 无
-## 最近修改时间：2026-06-09 23:44:00 接入真实刷怪和生命值。
+## 最近修改时间：2026-06-10 22:20:00 按怪物配置切换原创占位贴图。
 func setup(player: Node2D, enemy_data: Dictionary = {}) -> void:
-	# 1. 首版怪物形态先以追踪压力表达，生命和速度来自配置。
+	# 1. 首版怪物形态先以追踪压力表达，生命、速度和贴图都来自配置。
 	target = player
 	enemy_id = String(enemy_data.get("id", enemy_id))
 	hp = int(enemy_data.get("hp", hp))
 	move_speed = float(enemy_data.get("move_speed", move_speed))
+	body_sprite.texture = ENEMY_TEXTURES.get(enemy_id, ENEMY_TEXTURES["chaser"])
 
 ## 承受伤害。
 ## [参数] amount：伤害值。

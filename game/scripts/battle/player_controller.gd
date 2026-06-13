@@ -1,6 +1,20 @@
 extends CharacterBody2D
 
+const CHARACTER_TEXTURES := {
+	"runner": preload("res://assets/sprites/player_runner.svg"),
+	"guard": preload("res://assets/sprites/player_guard.svg")
+}
+
 @export var speed := 260.0
+@onready var body_sprite: Sprite2D = $Body
+
+## 设置玩家角色贴图。
+## [参数] character_id：角色编号。
+## [返回] 无
+## 最近修改时间：2026-06-10 22:22:00 接入首版原创角色占位素材。
+func setup_visual(character_id: String) -> void:
+	# 1. 按角色配置切换贴图，找不到时回退 runner，避免配置扩展时显示为空。
+	body_sprite.texture = CHARACTER_TEXTURES.get(character_id, CHARACTER_TEXTURES["runner"])
 
 ## 处理玩家移动。
 ## [参数] delta：物理帧间隔。

@@ -1,10 +1,9 @@
-[gd_scene format=3 uid="uid://hit_effect"]
+[gd_scene load_steps=2 format=3 uid="uid://hit_effect"]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/hit_flash.svg" id="1_texture"]
 
 [node name="HitEffect" type="Node2D"]
 
-[node name="Flash" type="ColorRect" parent="."]
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 10.0
-color = Color(1, 1, 1, 0.7)
+[node name="Flash" type="Sprite2D" parent="."]
+texture = ExtResource("1_texture")
+scale = Vector2(0.55, 0.55)

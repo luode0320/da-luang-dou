@@ -5,20 +5,32 @@ signal battle_finished(success: bool, rewards: Dictionary)
 const ENEMY_SCENE := preload("res://scenes/battle/Enemy.tscn")
 const PROJECTILE_SCENE := preload("res://scenes/battle/Projectile.tscn")
 const COIN_DROP_SCENE := preload("res://scenes/battle/CoinDrop.tscn")
-const ARENA_RECT := Rect2(Vector2(120, 110), Vector2(1040, 550))
+const ARENA_TEXTURE_PATH := "res://assets/maps/arena_kenney_open_grass.png"
+const DEFAULT_ARENA_RECT := Rect2(Vector2.ZERO, Vector2(1280, 720))
+const WORLD_VIEWPORT_MULTIPLIER := 3.0
+const ARENA_COVER_PADDING := 2.0
+const SPAWN_MARGIN := 48.0
 const PLAYER_HIT_DISTANCE := 24.0
 const PROJECTILE_HIT_DISTANCE := 22.0
 const COIN_PICKUP_DISTANCE := 30.0
 
+@onready var arena: Sprite2D = %Arena
+@onready var arena_background: Node2D = %ArenaBackground
+@onready var camera: Camera2D = %BattleCamera
 @onready var player: CharacterBody2D = %Player
 @onready var hud_label: Label = %BattleInfo
+@onready var level_toast: Label = %LevelToast
 
+var arena_rect := DEFAULT_ARENA_RECT
+var viewport_size := DEFAULT_ARENA_RECT.size
 var active := false
 var elapsed := 0.0
 var spawned := 0
 var defeated := 0
 var coins := 0
 var player_hp := 5
+var level_start_coins := 0
+var level_start_defeated := 0
 var level_config: Dictionary = {}
 var character_config: Dictionary = {}
 var spawn_timer := 0.0
@@ -27,13 +39,25 @@ var enemies: Array[Node2D] = []
 var projectiles: Array[Node2D] = []
 var coin_drops: Array[Node2D] = []
 var paused := false
+var level_toast_tween: Tween
+
+## 初始化战斗舞台。
+## [参数] 无
+## [返回] 无
+## 最近修改时间：2026-06-11 00:09:18 启动时创建三倍屏幕世界并配置相机边界。
+func _ready() -> void:
+	# 1. 进入场景后立即同步扩展战斗世界，避免首帧仍按屏幕大小限制玩家。
+	_sync_arena_to_viewport()
+	get_viewport().size_changed.connect(_sync_arena_to_viewport)
 
 ## 开始战斗。
 ## [参数] level_data：关卡配置；character_data：角色配置；equipped_items：已搭配永久道具。
 ## [返回] 无
-## 最近修改时间：2026-06-09 23:44:00 接入真实怪物、子弹、金币和生命值。
+## 最近修改时间：2026-06-11 00:57:03 记录本关奖励基线并隐藏关卡切换提示。
 func start_battle(level_data: Dictionary, character_data: Dictionary, equipped_items: Array[String]) -> void:
 	# 1. 重置战斗运行态，保证每次挑战可回放。
+	_sync_arena_to_viewport()
+	set_paused(false)
 	_clear_runtime_nodes()
 	level_config = level_data
 	character_config = character_data
@@ -41,12 +65,17 @@ func start_battle(level_data: Dictionary, character_data: Dictionary, equipped_i
 	spawned = 0
 	defeated = 0
 	coins = 0
+	level_start_coins = coins
+	level_start_defeated = defeated
 	player_hp = 5
 	spawn_timer = 0.0
 	attack_timer = _weapon_cooldown()
 	active = true
 	paused = false
-	player.global_position = Vector2(640, 360)
+	_hide_level_toast()
+	player.global_position = arena_rect.position + arena_rect.size * 0.5
+	camera.position = Vector2.ZERO
+	player.call("setup_visual", String(character_config.get("id", "runner")))
 	_apply_item_bonuses(equipped_items)
 	_spawn_timer_tick()
 	_update_hud()
@@ -57,6 +86,44 @@ func start_battle(level_data: Dictionary, character_data: Dictionary, equipped_i
 		character_config.get("skill", {}).get("id", ""),
 		str(equipped_items)
 	])
+
+## 连续切换到下一关。
+## [参数] level_data：下一关配置。
+## [返回] bool，成功切换返回 true。
+## 最近修改时间：2026-06-11 00:57:03 普通关卡切换不清场，只更新刷怪配置并显示居中提示。
+func continue_to_next_level(level_data: Dictionary) -> bool:
+	# 1. 下一关只刷新关卡节奏和本关奖励基线，保留角色位置、怪物、子弹和掉落物。
+	if level_data.is_empty():
+		return false
+	level_config = level_data
+	elapsed = 0.0
+	spawn_timer = 0.0
+	attack_timer = minf(attack_timer, _weapon_cooldown())
+	level_start_coins = coins
+	level_start_defeated = defeated
+	active = true
+	paused = false
+	set_paused(false)
+	_show_level_toast("进入第 %d 关" % int(level_config.get("level", 0)))
+	_update_hud()
+	print("BATTLE_CONTINUE level=%d alive=%d defeated_total=%d coins_total=%d" % [
+		level_config.get("level", 0),
+		enemies.size(),
+		defeated,
+		coins
+	])
+	return true
+
+## 停止当前连续战斗并清理动态实体。
+## [参数] 无
+## [返回] 无
+## 最近修改时间：2026-06-11 00:57:03 阶段结束或回到菜单时显式清场，避免普通换关误清空。
+func stop_battle() -> void:
+	# 1. 只有离开战斗流程时才清理运行实体，普通下一关保持连续战斗。
+	set_paused(false)
+	active = false
+	_hide_level_toast()
+	_clear_runtime_nodes()
 
 ## 更新战斗。
 ## [参数] delta：帧间隔。
@@ -97,7 +164,7 @@ func _apply_item_bonuses(equipped_items: Array[String]) -> void:
 ## 处理刷怪节拍。
 ## [参数] 无
 ## [返回] 无
-## 最近修改时间：2026-06-09 23:44:00 生成真实怪物节点。
+## 最近修改时间：2026-06-10 22:54:03 先入树再初始化怪物贴图，避免 onready 节点为空。
 func _spawn_timer_tick() -> void:
 	# 1. 每个节拍按关卡配置生成真实怪物，难度优先来自怪物节奏和行为组合。
 	spawn_timer = 0.0
@@ -105,8 +172,9 @@ func _spawn_timer_tick() -> void:
 	var enemy := ENEMY_SCENE.instantiate() as Node2D
 	var enemy_data := _next_enemy_config()
 	enemy.global_position = _spawn_position(spawned)
-	enemy.call("setup", player, enemy_data)
+	# 2. 怪物贴图节点依赖 @onready，必须先进入场景树再执行 setup。
 	add_child(enemy)
+	enemy.call("setup", player, enemy_data)
 	enemies.append(enemy)
 	print("ENEMY_SPAWN level=%d enemy=%s spawned=%d alive=%d" % [
 		level_config.get("level", 0),
@@ -118,14 +186,16 @@ func _spawn_timer_tick() -> void:
 ## 结束战斗。
 ## [参数] success：是否通关。
 ## [返回] 无
-## 最近修改时间：2026-06-09 01:01:30 战斗结算。
+## 最近修改时间：2026-06-11 00:57:03 成功通关只结算本关增量，失败才清理战斗实体。
 func _finish(success: bool) -> void:
 	# 1. 结算信号只返回本次挑战收益，长期资产由 SaveManager 统一写入。
+	set_paused(false)
 	active = false
-	_clear_runtime_nodes()
+	if not success:
+		_clear_runtime_nodes()
 	var rewards := {
-		"coins": coins,
-		"defeated": defeated,
+		"coins": max(0, coins - level_start_coins),
+		"defeated": max(0, defeated - level_start_defeated),
 		"elapsed": elapsed
 	}
 	print("BATTLE_FINISH success=%s rewards=%s" % [str(success), str(rewards)])
@@ -134,14 +204,70 @@ func _finish(success: bool) -> void:
 ## 切换暂停状态。
 ## [参数] 无
 ## [返回] bool，切换后的暂停状态。
-## 最近修改时间：2026-06-10 00:08:00 支持 ESC 暂停和恢复。
+## 最近修改时间：2026-06-10 22:54:03 使用 Godot 原生暂停冻结所有战斗实体。
 func toggle_pause() -> bool:
 	# 1. 只有战斗进行中允许暂停，避免结算或菜单状态被误暂停。
-	if not active:
+	return set_paused(not paused)
+
+## 设置暂停状态。
+## [参数] paused_state：是否暂停。
+## [返回] bool，最终暂停状态。
+## 最近修改时间：2026-06-10 22:54:03 同步战斗标记和 SceneTree 暂停状态。
+func set_paused(paused_state: bool) -> bool:
+	# 1. Godot 原生暂停会冻结玩家、怪物、子弹和掉落物，避免实体脚本绕过 BattleStage.paused。
+	if paused_state and not active:
 		return false
-	paused = not paused
+	paused = paused_state
+	get_tree().paused = paused
 	_update_hud()
 	return paused
+
+## 同步战斗区域到当前视口。
+## [参数] 无
+## [返回] 无
+## 最近修改时间：2026-06-11 00:09:18 让地图、叠加层、相机和边界共用三倍屏幕世界。
+func _sync_arena_to_viewport() -> void:
+	# 1. 以当前视口推导三倍屏幕的战斗世界，让玩家可以在延展地图中移动。
+	var viewport_rect := get_viewport_rect()
+	viewport_size = viewport_rect.size
+	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
+		viewport_size = DEFAULT_ARENA_RECT.size
+	arena_rect = Rect2(Vector2.ZERO, viewport_size * WORLD_VIEWPORT_MULTIPLIER)
+	_fit_arena_sprite()
+	arena_background.call("setup", arena_rect)
+	_configure_camera_limits()
+
+## 配置战斗相机边界。
+## [参数] 无
+## [返回] 无
+## 最近修改时间：2026-06-11 00:42:16 关闭相机平滑减少移动残影和子像素抖动。
+func _configure_camera_limits() -> void:
+	# 1. 相机限制在完整地图范围内，关闭平滑避免相机追随延迟造成移动残影。
+	camera.make_current()
+	camera.limit_left = int(arena_rect.position.x)
+	camera.limit_top = int(arena_rect.position.y)
+	camera.limit_right = int(arena_rect.end.x)
+	camera.limit_bottom = int(arena_rect.end.y)
+	camera.position_smoothing_enabled = false
+
+## 缩放地图贴图到覆盖战斗区域。
+## [参数] 无
+## [返回] 无
+## 最近修改时间：2026-06-11 01:39:27 场景缓存未带入纹理时兜底加载开放草地地图。
+func _fit_arena_sprite() -> void:
+	# 1. 场景缓存若未带入贴图，运行时兜底加载新开放草地地图，避免回到空白或旧地图状态。
+	var texture := arena.texture
+	if texture == null:
+		texture = load(ARENA_TEXTURE_PATH) as Texture2D
+		arena.texture = texture
+		if texture == null:
+			return
+	var texture_size := texture.get_size()
+	if texture_size.x <= 0.0 or texture_size.y <= 0.0:
+		return
+	var fill_scale := maxf(1.0, maxf((arena_rect.size.x + ARENA_COVER_PADDING) / texture_size.x, (arena_rect.size.y + ARENA_COVER_PADDING) / texture_size.y))
+	arena.position = arena_rect.position + arena_rect.size * 0.5
+	arena.scale = Vector2(fill_scale, fill_scale)
 
 ## 读取刷怪间隔。
 ## [参数] 无
@@ -214,12 +340,14 @@ func _nearest_enemy() -> Node2D:
 ## 处理发射物命中。
 ## [参数] 无
 ## [返回] 无
-## 最近修改时间：2026-06-09 23:44:00 实现击败怪物和金币掉落。
+## 最近修改时间：2026-06-11 00:18:41 清理已释放发射物时避免 TypedArray 反复擦除无效实例。
 func _resolve_projectile_hits() -> void:
 	# 1. 首版用距离判定保证可玩，后续再升级到碰撞层和碰撞体。
-	for projectile in projectiles.duplicate():
+	for projectile_index in range(projectiles.size() - 1, -1, -1):
+		var projectile := projectiles[projectile_index]
+		# 1.1 已经被生命周期释放的发射物按索引移除，避免 TypedArray 校验无效实例时报错。
 		if not is_instance_valid(projectile):
-			projectiles.erase(projectile)
+			projectiles.remove_at(projectile_index)
 			continue
 		for enemy in enemies.duplicate():
 			if not is_instance_valid(enemy):
@@ -310,29 +438,57 @@ func _next_enemy_config() -> Dictionary:
 
 ## 计算刷怪位置。
 ## [参数] spawn_index：当前生成序号。
-## [返回] Vector2，舞台边缘位置。
-## 最近修改时间：2026-06-09 23:44:00 让怪物从四周进入战场。
+## [返回] Vector2，当前镜头周围的刷怪入口。
+## 最近修改时间：2026-06-11 00:25:12 扩展地图下改为从当前视野四周刷怪。
 func _spawn_position(spawn_index: int) -> Vector2:
-	# 1. 使用确定性序列，保证同关卡调试时刷怪入口可复现。
+	# 1. 使用确定性序列围绕当前镜头刷怪，避免大地图边缘怪物离玩家过远。
 	var side := spawn_index % 4
 	var ratio := float((spawn_index * 37) % 100) / 100.0
+	var spawn_rect := _visible_spawn_rect()
+	var spawn_position := Vector2.ZERO
 	if side == 0:
-		return Vector2(ARENA_RECT.position.x, ARENA_RECT.position.y + ARENA_RECT.size.y * ratio)
-	if side == 1:
-		return Vector2(ARENA_RECT.position.x + ARENA_RECT.size.x, ARENA_RECT.position.y + ARENA_RECT.size.y * ratio)
-	if side == 2:
-		return Vector2(ARENA_RECT.position.x + ARENA_RECT.size.x * ratio, ARENA_RECT.position.y)
-	return Vector2(ARENA_RECT.position.x + ARENA_RECT.size.x * ratio, ARENA_RECT.position.y + ARENA_RECT.size.y)
+		spawn_position = Vector2(spawn_rect.position.x - SPAWN_MARGIN, spawn_rect.position.y + spawn_rect.size.y * ratio)
+	elif side == 1:
+		spawn_position = Vector2(spawn_rect.end.x + SPAWN_MARGIN, spawn_rect.position.y + spawn_rect.size.y * ratio)
+	elif side == 2:
+		spawn_position = Vector2(spawn_rect.position.x + spawn_rect.size.x * ratio, spawn_rect.position.y - SPAWN_MARGIN)
+	else:
+		spawn_position = Vector2(spawn_rect.position.x + spawn_rect.size.x * ratio, spawn_rect.end.y + SPAWN_MARGIN)
+	return _clamp_to_arena_bounds(spawn_position)
+
+## 计算当前镜头覆盖区域。
+## [参数] 无
+## [返回] Rect2，当前镜头在世界中的可见区域。
+## 最近修改时间：2026-06-11 00:25:12 为扩展地图提供近屏刷怪范围。
+func _visible_spawn_rect() -> Rect2:
+	# 1. 镜头中心按相机边界裁剪，保证靠近地图边缘时刷怪仍围绕玩家可见区域。
+	var half_viewport := viewport_size * 0.5
+	var center := Vector2(
+		clamp(player.global_position.x, arena_rect.position.x + half_viewport.x, arena_rect.end.x - half_viewport.x),
+		clamp(player.global_position.y, arena_rect.position.y + half_viewport.y, arena_rect.end.y - half_viewport.y)
+	)
+	return Rect2(center - half_viewport, viewport_size)
+
+## 裁剪到战斗世界边界。
+## [参数] position_value：待裁剪坐标。
+## [返回] Vector2，战斗世界内坐标。
+## 最近修改时间：2026-06-11 00:25:12 复用给扩展地图刷怪入口。
+func _clamp_to_arena_bounds(position_value: Vector2) -> Vector2:
+	# 1. 怪物和其他非玩家节点只需要限制在世界边界内，不套用玩家半径。
+	return Vector2(
+		clamp(position_value.x, arena_rect.position.x, arena_rect.end.x),
+		clamp(position_value.y, arena_rect.position.y, arena_rect.end.y)
+	)
 
 ## 裁剪到战斗区域。
 ## [参数] position_value：待裁剪坐标。
 ## [返回] Vector2，战斗区域内坐标。
-## 最近修改时间：2026-06-09 23:44:00 防止玩家移动到舞台外。
+## 最近修改时间：2026-06-10 23:24:38 按运行时战斗区域限制玩家移动。
 func _clamp_to_arena(position_value: Vector2) -> Vector2:
 	# 1. 玩家只能在可见战斗区域内移动，保证 PC Demo 操作反馈明确。
 	return Vector2(
-		clamp(position_value.x, ARENA_RECT.position.x + 16.0, ARENA_RECT.position.x + ARENA_RECT.size.x - 16.0),
-		clamp(position_value.y, ARENA_RECT.position.y + 16.0, ARENA_RECT.position.y + ARENA_RECT.size.y - 16.0)
+		clamp(position_value.x, arena_rect.position.x + 16.0, arena_rect.position.x + arena_rect.size.x - 16.0),
+		clamp(position_value.y, arena_rect.position.y + 16.0, arena_rect.position.y + arena_rect.size.y - 16.0)
 	)
 
 ## 清理战斗运行节点。
@@ -348,10 +504,36 @@ func _clear_runtime_nodes() -> void:
 	projectiles.clear()
 	coin_drops.clear()
 
+## 显示居中关卡切换提示。
+## [参数] text：提示文案。
+## [返回] 无
+## 最近修改时间：2026-06-11 00:57:03 关卡切换反馈只覆盖战斗 HUD，不打断战斗流程。
+func _show_level_toast(text: String) -> void:
+	# 1. 居中提示用短动画表达进入下一关，同时让底层战斗继续推进。
+	if level_toast_tween != null:
+		level_toast_tween.kill()
+	level_toast.text = text
+	level_toast.visible = true
+	level_toast.modulate = Color(1, 1, 1, 0.0)
+	level_toast_tween = create_tween()
+	level_toast_tween.tween_property(level_toast, "modulate:a", 1.0, 0.18)
+	level_toast_tween.tween_interval(0.95)
+	level_toast_tween.tween_property(level_toast, "modulate:a", 0.0, 0.28)
+	level_toast_tween.finished.connect(_hide_level_toast)
+
+## 隐藏关卡切换提示。
+## [参数] 无
+## [返回] 无
+## 最近修改时间：2026-06-11 00:57:03 统一收口提示动画和初始隐藏状态。
+func _hide_level_toast() -> void:
+	# 1. 隐藏时保留文字内容无影响，下一次显示会重新覆盖文案。
+	level_toast.visible = false
+	level_toast.modulate = Color(1, 1, 1, 0.0)
+
 ## 刷新战斗 HUD。
 ## [参数] 无
 ## [返回] 无
-## 最近修改时间：2026-06-10 00:08:00 操作说明补充暂停状态。
+## 最近修改时间：2026-06-10 23:03:37 全屏地图下保持 HUD 靠近窗口上沿。
 func _update_hud() -> void:
 	# 1. HUD 保持大字号关键数据，并直接给玩家基础操作说明。
 	var pause_text := ""

@@ -16,3 +16,7 @@ build/Windows/*
 
 tools/*
 tools.zip
+
+# Local analysis/cache directories
+.codegraph/
+.npm-cache-skills/

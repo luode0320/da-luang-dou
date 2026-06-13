@@ -1,0 +1,114 @@
+{
+  "map_id": "arena_foundry_meadow",
+  "mode": "scene_mode",
+  "camera": "top_down",
+  "reference_style": "flat, clean top-down survivors arena with large original edge hero props: chunky canopy volume, visible trunk structure, grounded foundry barricades and restrained glow accents",
+  "base_texture": "res://assets/maps/arena_foundry_meadow_base.png",
+  "props_texture": "res://assets/maps/arena_foundry_meadow_props.png",
+  "world_size": {
+    "width": 1040,
+    "height": 550
+  },
+  "zones": [
+    {
+      "id": "player_spawn_center",
+      "type": "spawn",
+      "shape": "circle",
+      "center": {
+        "x": 520,
+        "y": 275
+      },
+      "radius": 62
+    },
+    {
+      "id": "central_clear_combat_zone",
+      "type": "combat_clear_zone",
+      "shape": "ellipse",
+      "center": {
+        "x": 520,
+        "y": 275
+      },
+      "radius_x": 248,
+      "radius_y": 124
+    }
+  ],
+  "props": [
+    {
+      "id": "northwest_canopy_foundry_cluster",
+      "kind": "edge_hero_prop_cluster",
+      "position": {
+        "x": 670,
+        "y": 470
+      },
+      "radius": 330
+    },
+    {
+      "id": "southwest_canopy_foundry_cluster",
+      "kind": "edge_hero_prop_cluster",
+      "position": {
+        "x": 740,
+        "y": 1710
+      },
+      "radius": 345
+    },
+    {
+      "id": "northeast_canopy_foundry_cluster",
+      "kind": "edge_hero_prop_cluster",
+      "position": {
+        "x": 3460,
+        "y": 455
+      },
+      "radius": 325
+    },
+    {
+      "id": "southeast_canopy_foundry_cluster",
+      "kind": "edge_hero_prop_cluster",
+      "position": {
+        "x": 3370,
+        "y": 1685
+      },
+      "radius": 340
+    },
+    {
+      "id": "northwest_edge_foundry_marker",
+      "kind": "edge_support_hero_barricade",
+      "position": {
+        "x": 920,
+        "y": 270
+      },
+      "radius": 145
+    },
+    {
+      "id": "northeast_edge_foundry_marker",
+      "kind": "edge_support_hero_barricade",
+      "position": {
+        "x": 3230,
+        "y": 270
+      },
+      "radius": 145
+    },
+    {
+      "id": "southwest_edge_foundry_marker",
+      "kind": "edge_support_hero_barricade",
+      "position": {
+        "x": 1010,
+        "y": 1948
+      },
+      "radius": 145
+    },
+    {
+      "id": "southeast_edge_foundry_marker",
+      "kind": "edge_support_hero_barricade",
+      "position": {
+        "x": 3140,
+        "y": 1948
+      },
+      "radius": 145
+    }
+  ],
+  "collision_notes": [
+    "当前这版底图保留低对比轻竞技场地表，继续强调中央清爽战斗区。",
+    "外围 props 改为大型独立 hero prop 组：厚树冠、可读枝干、废料挡板、接地阴影和少量绿色发光点缀共同承担边缘层次。",
+    "支持标记只用于强化竞技场边缘节奏，不再使用草簇、噪点或黑圈式小装饰作为正式场景资产。"
+  ]
+}

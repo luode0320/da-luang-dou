@@ -5,7 +5,8 @@ signal battle_finished(success: bool, rewards: Dictionary)
 const ENEMY_SCENE := preload("res://scenes/battle/Enemy.tscn")
 const PROJECTILE_SCENE := preload("res://scenes/battle/Projectile.tscn")
 const COIN_DROP_SCENE := preload("res://scenes/battle/CoinDrop.tscn")
-const ARENA_TEXTURE_PATH := "res://assets/maps/arena_kenney_open_grass.png"
+const ARENA_TEXTURE_PATH := "res://assets/maps/arena_foundry_meadow_base.png"
+const ARENA_PROPS_TEXTURE_PATH := "res://assets/maps/arena_foundry_meadow_props.png"
 const DEFAULT_ARENA_RECT := Rect2(Vector2.ZERO, Vector2(1280, 720))
 const WORLD_VIEWPORT_MULTIPLIER := 3.0
 const ARENA_COVER_PADDING := 2.0
@@ -15,6 +16,7 @@ const PROJECTILE_HIT_DISTANCE := 22.0
 const COIN_PICKUP_DISTANCE := 30.0
 
 @onready var arena: Sprite2D = %Arena
+@onready var arena_props: Sprite2D = %ArenaProps
 @onready var arena_background: Node2D = %ArenaBackground
 @onready var camera: Camera2D = %BattleCamera
 @onready var player: CharacterBody2D = %Player
@@ -253,21 +255,29 @@ func _configure_camera_limits() -> void:
 ## 缩放地图贴图到覆盖战斗区域。
 ## [参数] 无
 ## [返回] 无
-## 最近修改时间：2026-06-11 01:39:27 场景缓存未带入纹理时兜底加载开放草地地图。
+## 最近修改时间：2026-06-13 23:30:00 运行时地图改为稳定 PNG 底图并联动原创 props 图层。
 func _fit_arena_sprite() -> void:
-	# 1. 场景缓存若未带入贴图，运行时兜底加载新开放草地地图，避免回到空白或旧地图状态。
+	# 1. 场景缓存若未带入贴图，运行时兜底加载原创底图，避免回到空白或历史第三方地图状态。
 	var texture := arena.texture
 	if texture == null:
 		texture = load(ARENA_TEXTURE_PATH) as Texture2D
 		arena.texture = texture
 		if texture == null:
 			return
+	# 2. props 图层与底图独立加载，方便继续扩展前景遮挡、碰撞和可编辑布局。
+	var props_texture := arena_props.texture
+	if props_texture == null:
+		props_texture = load(ARENA_PROPS_TEXTURE_PATH) as Texture2D
+		arena_props.texture = props_texture
 	var texture_size := texture.get_size()
 	if texture_size.x <= 0.0 or texture_size.y <= 0.0:
 		return
 	var fill_scale := maxf(1.0, maxf((arena_rect.size.x + ARENA_COVER_PADDING) / texture_size.x, (arena_rect.size.y + ARENA_COVER_PADDING) / texture_size.y))
 	arena.position = arena_rect.position + arena_rect.size * 0.5
 	arena.scale = Vector2(fill_scale, fill_scale)
+	# 3. props 图层与底图共用锚点和缩放，保证视觉层次与可行走区域始终一致。
+	arena_props.position = arena.position
+	arena_props.scale = arena.scale
 
 ## 读取刷怪间隔。
 ## [参数] 无

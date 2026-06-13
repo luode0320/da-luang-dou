@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://battle_stage"]
+[gd_scene load_steps=7 format=3 uid="uid://battle_stage"]
 
 [ext_resource type="Script" path="res://scripts/battle/battle_stage.gd" id="1_battle"]
 [ext_resource type="Script" path="res://scripts/battle/player_controller.gd" id="2_player"]
 [ext_resource type="Script" path="res://scripts/battle/arena_background.gd" id="3_arena_bg"]
 [ext_resource type="Texture2D" path="res://assets/sprites/player_runner.svg" id="4_player_texture"]
-[ext_resource type="Texture2D" path="res://assets/maps/arena_kenney_open_grass.png" id="5_map_texture"]
+[ext_resource type="Texture2D" path="res://assets/maps/arena_foundry_meadow_base.png" id="5_map_texture"]
+[ext_resource type="Texture2D" path="res://assets/maps/arena_foundry_meadow_props.png" id="6_props_texture"]
 
 [node name="BattleStage" type="Node2D"]
 top_level = true
@@ -15,6 +16,12 @@ unique_name_in_owner = true
 position = Vector2(640, 360)
 scale = Vector2(1.231, 1.309)
 texture = ExtResource("5_map_texture")
+
+[node name="ArenaProps" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(640, 360)
+scale = Vector2(1.231, 1.309)
+texture = ExtResource("6_props_texture")
 
 [node name="ArenaBackground" type="Node2D" parent="."]
 unique_name_in_owner = true

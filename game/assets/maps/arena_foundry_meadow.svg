@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="4160" height="2200" viewBox="0 0 1040 550">
+  <defs>
+    <linearGradient id="grassBase" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#80d07f"/>
+      <stop offset="0.55" stop-color="#58bc73"/>
+      <stop offset="1" stop-color="#3ba567"/>
+    </linearGradient>
+    <radialGradient id="fieldGlow" cx="0.5" cy="0.45" r="0.82">
+      <stop offset="0" stop-color="#baf09c" stop-opacity="0.18"/>
+      <stop offset="0.6" stop-color="#58bc73" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2d6a4c" stop-opacity="0.24"/>
+    </radialGradient>
+    <pattern id="microDots" width="36" height="36" patternUnits="userSpaceOnUse">
+      <circle cx="9" cy="11" r="1.4" fill="#9fe18c" fill-opacity="0.34"/>
+      <circle cx="24" cy="21" r="1.1" fill="#2d8f5b" fill-opacity="0.18"/>
+    </pattern>
+  </defs>
+
+  <rect width="1040" height="550" fill="#2d6a4c"/>
+  <rect x="10" y="10" width="1020" height="530" rx="28" fill="url(#grassBase)"/>
+  <rect x="10" y="10" width="1020" height="530" rx="28" fill="url(#microDots)"/>
+  <rect x="10" y="10" width="1020" height="530" rx="28" fill="url(#fieldGlow)"/>
+
+  <g opacity="0.56">
+    <path d="M118 108C220 62 318 66 414 118" fill="none" stroke="#d6b56c" stroke-width="16" stroke-linecap="round"/>
+    <path d="M646 104C738 56 834 60 930 120" fill="none" stroke="#d6b56c" stroke-width="16" stroke-linecap="round"/>
+    <path d="M162 426C264 374 366 382 452 434" fill="none" stroke="#d6b56c" stroke-width="16" stroke-linecap="round"/>
+    <path d="M616 424C714 470 820 468 916 420" fill="none" stroke="#d6b56c" stroke-width="16" stroke-linecap="round"/>
+    <path d="M412 272C470 226 572 224 632 274" fill="none" stroke="#c8a85d" stroke-width="22" stroke-linecap="round"/>
+  </g>
+
+  <g fill="#cfe8ad" fill-opacity="0.22">
+    <ellipse cx="118" cy="98" rx="54" ry="28"/>
+    <ellipse cx="254" cy="154" rx="42" ry="24"/>
+    <ellipse cx="402" cy="246" rx="58" ry="27"/>
+    <ellipse cx="540" cy="98" rx="48" ry="22"/>
+    <ellipse cx="780" cy="96" rx="58" ry="26"/>
+    <ellipse cx="930" cy="152" rx="54" ry="28"/>
+    <ellipse cx="246" cy="434" rx="56" ry="28"/>
+    <ellipse cx="474" cy="356" rx="48" ry="24"/>
+    <ellipse cx="636" cy="438" rx="60" ry="30"/>
+    <ellipse cx="870" cy="426" rx="62" ry="28"/>
+  </g>
+
+  <g>
+    <circle cx="164" cy="146" r="7" fill="#d9dfeb"/>
+    <circle cx="272" cy="214" r="5" fill="#9fd98b"/>
+    <circle cx="544" cy="152" r="6" fill="#ffffff"/>
+    <circle cx="768" cy="204" r="6" fill="#d96b2f"/>
+    <circle cx="904" cy="180" r="5" fill="#ffffff"/>
+    <circle cx="220" cy="402" r="6" fill="#ffffff"/>
+    <circle cx="394" cy="468" r="5" fill="#d96b2f"/>
+    <circle cx="574" cy="448" r="6" fill="#d9dfeb"/>
+    <circle cx="836" cy="408" r="7" fill="#d96b2f"/>
+  </g>
+
+  <g opacity="0.62">
+    <rect x="94" y="122" width="12" height="4" rx="2" fill="#da7d3b" transform="rotate(-42 100 124)"/>
+    <rect x="306" y="94" width="10" height="4" rx="2" fill="#da7d3b" transform="rotate(48 311 96)"/>
+    <rect x="574" y="316" width="10" height="4" rx="2" fill="#da7d3b" transform="rotate(-35 579 318)"/>
+    <rect x="818" y="106" width="12" height="4" rx="2" fill="#da7d3b" transform="rotate(-46 824 108)"/>
+    <rect x="210" y="308" width="12" height="4" rx="2" fill="#da7d3b" transform="rotate(42 216 310)"/>
+    <path d="M534 366l6-4 6 6-7 5z" fill="#9aa2b6"/>
+    <path d="M880 290l7-4 6 6-8 5z" fill="#9aa2b6"/>
+    <path d="M148 332l6-4 5 5-6 5z" fill="#9aa2b6"/>
+  </g>
+
+  <g fill="none">
+    <rect x="18" y="18" width="1004" height="514" rx="22" stroke="#9fe18c" stroke-opacity="0.58" stroke-width="10"/>
+    <rect x="34" y="34" width="972" height="482" rx="14" stroke="#2d6a4c" stroke-opacity="0.28" stroke-width="12"/>
+    <path d="M48 48H178M862 48H992M48 502H178M862 502H992" stroke="#eff7da" stroke-opacity="0.34" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>

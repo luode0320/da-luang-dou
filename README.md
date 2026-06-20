@@ -30,3 +30,4 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 Git规则:不适用
 
 2026-06-20 23:45:37 docs: [仓库规则补齐] 补齐 AGENTS 与基础自举配置
+2026-06-20 23:49:30 docs: [提交收口] 清理 AGENTS 残留改动

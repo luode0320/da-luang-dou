@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="580" viewBox="0 0 1080 580" role="img" aria-labelledby="title desc">
+  <title id="title">模块化关卡最高级原则流程图</title>
+  <desc id="desc">展示启动、继续上次或开始新游戏、进入模块地图、选择模块与关卡节点、角色与道具准备、进入战斗、通关保存和解锁新节点或新模块的流程。</desc>
+  <rect width="1080" height="580" fill="#FFFFFF"/>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#374151"/>
+    </marker>
+    <style>
+      .box { fill: #F8FAFC; stroke: #334155; stroke-width: 2; rx: 8; }
+      .decision { fill: #FEF3C7; stroke: #92400E; stroke-width: 2; }
+      .text { font-family: Arial, sans-serif; font-size: 18px; fill: #111827; text-anchor: middle; dominant-baseline: middle; }
+      .small { font-family: Arial, sans-serif; font-size: 14px; fill: #374151; text-anchor: middle; dominant-baseline: middle; }
+      .line { stroke: #374151; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .label { font-family: Arial, sans-serif; font-size: 14px; fill: #111827; text-anchor: middle; }
+    </style>
+  </defs>
+  <text x="540" y="34" class="text">模块化关卡最高级原则流程</text>
+
+  <rect x="40" y="80" width="150" height="64" class="box"/>
+  <text x="115" y="112" class="text">启动游戏</text>
+
+  <rect x="230" y="80" width="170" height="64" class="box"/>
+  <text x="315" y="112" class="text">继续上次或开始新游戏</text>
+
+  <rect x="440" y="80" width="190" height="64" class="box"/>
+  <text x="535" y="102" class="text">进入模块地图</text>
+  <text x="535" y="126" class="small">查看已解锁模块</text>
+
+  <rect x="680" y="80" width="180" height="64" class="box"/>
+  <text x="770" y="102" class="text">选择模块</text>
+  <text x="770" y="126" class="small">主题地图入口</text>
+
+  <rect x="900" y="80" width="150" height="64" class="box"/>
+  <text x="975" y="102" class="text">关卡节点</text>
+  <text x="975" y="126" class="small">逐关解锁</text>
+
+  <rect x="900" y="182" width="150" height="64" class="box"/>
+  <text x="975" y="204" class="text">选择角色</text>
+  <text x="975" y="228" class="small">固定套装</text>
+
+  <rect x="900" y="278" width="150" height="64" class="box"/>
+  <text x="975" y="300" class="text">搭配永久道具</text>
+  <text x="975" y="324" class="small">按规则限额</text>
+
+  <rect x="900" y="374" width="150" height="64" class="box"/>
+  <text x="975" y="396" class="text">进入关卡战斗</text>
+  <text x="975" y="420" class="small">支持统一倍率</text>
+
+  <polygon points="975,456 1060,506 975,556 890,506" class="decision"/>
+  <text x="975" y="506" class="text">是否通关</text>
+
+  <rect x="600" y="474" width="210" height="64" class="box"/>
+  <text x="705" y="496" class="text">保存进度收益</text>
+  <text x="705" y="520" class="small">金币 抽道具 解锁结果</text>
+
+  <rect x="320" y="474" width="210" height="64" class="box"/>
+  <text x="425" y="496" class="text">解锁下一节点</text>
+  <text x="425" y="520" class="small">或开放新模块</text>
+
+  <rect x="890" y="20" width="160" height="40" class="box"/>
+  <text x="970" y="40" class="text">保留既有进度</text>
+
+  <path d="M190 112 H230" class="line"/>
+  <path d="M400 112 H440" class="line"/>
+  <path d="M630 112 H680" class="line"/>
+  <path d="M860 112 H900" class="line"/>
+  <path d="M975 144 V182" class="line"/>
+  <path d="M975 246 V278" class="line"/>
+  <path d="M975 342 V374" class="line"/>
+  <path d="M975 438 V456" class="line"/>
+  <path d="M890 506 H810" class="line"/>
+  <text x="850" y="494" class="label">是</text>
+  <path d="M600 506 H530" class="line"/>
+  <path d="M320 506 H230 V360 H900" class="line"/>
+  <path d="M975 456 V60" class="line"/>
+  <text x="996" y="248" class="label">否</text>
+</svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="600" viewBox="0 0 1120 600" role="img" aria-labelledby="title desc">
+  <title id="title">模块化关卡最高级原则时序图</title>
+  <desc id="desc">展示玩家、游戏循环、自动存档、模块系统、角色系统、永久道具池与统一倍率之间的交互顺序。</desc>
+  <rect width="1120" height="600" fill="#FFFFFF"/>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#374151"/>
+    </marker>
+    <style>
+      .actor { fill: #F8FAFC; stroke: #334155; stroke-width: 2; rx: 8; }
+      .life { stroke: #CBD5E1; stroke-width: 2; stroke-dasharray: 6 6; }
+      .msg { stroke: #374151; stroke-width: 2; marker-end: url(#arrow); }
+      .return { stroke: #64748B; stroke-width: 2; stroke-dasharray: 5 5; marker-end: url(#arrow); }
+      .text { font-family: Arial, sans-serif; font-size: 16px; fill: #111827; text-anchor: middle; dominant-baseline: middle; }
+      .label { font-family: Arial, sans-serif; font-size: 14px; fill: #111827; text-anchor: middle; }
+    </style>
+  </defs>
+  <text x="560" y="34" class="text">模块化关卡最高级原则时序</text>
+
+  <rect x="20" y="70" width="110" height="48" class="actor"/>
+  <text x="75" y="94" class="text">玩家</text>
+  <rect x="160" y="70" width="120" height="48" class="actor"/>
+  <text x="220" y="94" class="text">游戏循环</text>
+  <rect x="310" y="70" width="100" height="48" class="actor"/>
+  <text x="360" y="94" class="text">存档</text>
+  <rect x="440" y="70" width="120" height="48" class="actor"/>
+  <text x="500" y="94" class="text">模块系统</text>
+  <rect x="590" y="70" width="120" height="48" class="actor"/>
+  <text x="650" y="94" class="text">角色系统</text>
+  <rect x="740" y="70" width="130" height="48" class="actor"/>
+  <text x="805" y="94" class="text">永久道具池</text>
+  <rect x="900" y="70" width="110" height="48" class="actor"/>
+  <text x="955" y="94" class="text">统一倍率</text>
+  <rect x="1030" y="70" width="70" height="48" class="actor"/>
+  <text x="1065" y="94" class="text">安装器</text>
+
+  <line x1="75" y1="118" x2="75" y2="560" class="life"/>
+  <line x1="220" y1="118" x2="220" y2="560" class="life"/>
+  <line x1="360" y1="118" x2="360" y2="560" class="life"/>
+  <line x1="500" y1="118" x2="500" y2="560" class="life"/>
+  <line x1="650" y1="118" x2="650" y2="560" class="life"/>
+  <line x1="805" y1="118" x2="805" y2="560" class="life"/>
+  <line x1="955" y1="118" x2="955" y2="560" class="life"/>
+  <line x1="1065" y1="118" x2="1065" y2="560" class="life"/>
+
+  <line x1="75" y1="145" x2="1065" y2="145" class="msg"/>
+  <text x="570" y="133" class="label">安装并启动游戏</text>
+
+  <line x1="75" y1="190" x2="220" y2="190" class="msg"/>
+  <text x="147" y="178" class="label">继续上次或开始新游戏</text>
+
+  <line x1="220" y1="235" x2="360" y2="235" class="msg"/>
+  <text x="290" y="223" class="label">读取存档进度</text>
+
+  <line x1="360" y1="280" x2="220" y2="280" class="return"/>
+  <text x="290" y="268" class="label">返回模块解锁状态</text>
+
+  <line x1="75" y1="325" x2="500" y2="325" class="msg"/>
+  <text x="287" y="313" class="label">选择已解锁模块与关卡节点</text>
+
+  <line x1="500" y1="370" x2="220" y2="370" class="return"/>
+  <text x="360" y="358" class="label">返回模块节点与规则</text>
+
+  <line x1="75" y1="415" x2="650" y2="415" class="msg"/>
+  <text x="362" y="403" class="label">选择角色</text>
+
+  <line x1="650" y1="455" x2="220" y2="455" class="return"/>
+  <text x="435" y="443" class="label">固定武器与固定技能</text>
+
+  <line x1="75" y1="495" x2="805" y2="495" class="msg"/>
+  <text x="440" y="483" class="label">搭配永久道具</text>
+
+  <line x1="805" y1="535" x2="220" y2="535" class="return"/>
+  <text x="512" y="523" class="label">返回当前关卡可用配置</text>
+
+  <line x1="220" y1="560" x2="955" y2="560" class="msg"/>
+  <text x="587" y="548" class="label">按统一倍率进入战斗并更新通关结果</text>
+</svg>

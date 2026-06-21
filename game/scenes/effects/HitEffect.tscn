@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://hit_effect"]
-
-[ext_resource type="Texture2D" path="res://assets/sprites/hit_flash.svg" id="1_texture"]
-
-[node name="HitEffect" type="Node2D"]
-
-[node name="Flash" type="Sprite2D" parent="."]
-texture = ExtResource("1_texture")
-scale = Vector2(0.55, 0.55)

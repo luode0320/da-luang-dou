@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://save_slot_select"]
-
-[ext_resource type="Script" path="res://scripts/ui/save_slot_select.gd" id="1_script"]
-
-[node name="SaveSlotSelect" type="Control"]
-script = ExtResource("1_script")

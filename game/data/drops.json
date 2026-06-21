@@ -1,6 +1,0 @@
-{
-  "coin_per_enemy": 1,
-  "clear_bonus": 8,
-  "item_draw_cost": 10,
-  "draw_policy": "deterministic_first_missing_for_debug_replay"
-}

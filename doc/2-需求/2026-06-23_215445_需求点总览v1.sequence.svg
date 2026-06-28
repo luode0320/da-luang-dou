@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="560" viewBox="0 0 1040 560">
+  <rect width="1040" height="560" fill="#FFFFFF"/>
+  <defs>
+    <style>
+      .head { fill:#EDF2F7; stroke:#2D3748; stroke-width:2; rx:10; }
+      .life { stroke:#A0AEC0; stroke-width:2; stroke-dasharray:6 6; }
+      .msg { stroke:#2D3748; stroke-width:2; fill:none; marker-end:url(#arrow); }
+      .text { font-family:'Microsoft YaHei', Arial, sans-serif; font-size:16px; fill:#1A202C; }
+      .small { font-family:'Microsoft YaHei', Arial, sans-serif; font-size:14px; fill:#2D3748; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2D3748"/>
+    </marker>
+  </defs>
+  <rect class="head" x="40" y="30" width="130" height="50"/><text class="text" x="88" y="62">后台</text>
+  <rect class="head" x="250" y="30" width="130" height="50"/><text class="text" x="282" y="62">发布包</text>
+  <rect class="head" x="460" y="30" width="130" height="50"/><text class="text" x="493" y="62">游戏侧</text>
+  <rect class="head" x="670" y="30" width="130" height="50"/><text class="text" x="703" y="62">玩家</text>
+  <rect class="head" x="870" y="30" width="130" height="50"/><text class="text" x="903" y="62">存档</text>
+  <line class="life" x1="105" y1="80" x2="105" y2="520"/>
+  <line class="life" x1="315" y1="80" x2="315" y2="520"/>
+  <line class="life" x1="525" y1="80" x2="525" y2="520"/>
+  <line class="life" x1="735" y1="80" x2="735" y2="520"/>
+  <line class="life" x1="935" y1="80" x2="935" y2="520"/>
+  <path class="msg" d="M105 120 H315"/><text class="small" x="145" y="112">发布 YAML 配置</text>
+  <path class="msg" d="M525 170 H315"/><text class="small" x="354" y="162">启动读取发布包</text>
+  <path class="msg" d="M735 220 H525"/><text class="small" x="575" y="212">进入首页/模块地图</text>
+  <path class="msg" d="M525 270 H935"/><text class="small" x="650" y="262">读取模块自动存档</text>
+  <path class="msg" d="M735 320 H525"/><text class="small" x="570" y="312">选择角色和道具</text>
+  <path class="msg" d="M525 370 H525"/><text class="small" x="548" y="374">运行关卡战斗</text>
+  <path class="msg" d="M525 430 H935"/><text class="small" x="640" y="422">通关写入进度奖励</text>
+  <path class="msg" d="M935 480 H525"/><text class="small" x="650" y="472">返回最新进度</text>
+</svg>

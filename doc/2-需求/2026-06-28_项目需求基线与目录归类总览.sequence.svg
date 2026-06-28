@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="760" viewBox="0 0 1320 760">
+  <rect width="1320" height="760" fill="#FFFFFF"/>
+  <defs>
+    <style>
+      .title { font: 700 28px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #1F2937; }
+      .actor { font: 600 18px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #111827; }
+      .text { font: 14px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #374151; }
+      .head { fill: #EFF6FF; stroke: #2563EB; stroke-width: 2; rx: 12; ry: 12; }
+      .life { stroke: #93C5FD; stroke-width: 2; stroke-dasharray: 8 8; }
+      .msg { stroke: #2563EB; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/>
+    </marker>
+  </defs>
+
+  <text x="660" y="52" text-anchor="middle" class="title">项目需求基线协作时序</text>
+
+  <g>
+    <rect x="70" y="100" width="140" height="56" class="head"/>
+    <text x="140" y="135" text-anchor="middle" class="actor">后台配置系统</text>
+    <line x1="140" y1="156" x2="140" y2="700" class="life"/>
+  </g>
+  <g>
+    <rect x="300" y="100" width="140" height="56" class="head"/>
+    <text x="370" y="135" text-anchor="middle" class="actor">发布配置包</text>
+    <line x1="370" y1="156" x2="370" y2="700" class="life"/>
+  </g>
+  <g>
+    <rect x="530" y="100" width="140" height="56" class="head"/>
+    <text x="600" y="135" text-anchor="middle" class="actor">Godot 游戏</text>
+    <line x1="600" y1="156" x2="600" y2="700" class="life"/>
+  </g>
+  <g>
+    <rect x="760" y="100" width="140" height="56" class="head"/>
+    <text x="830" y="135" text-anchor="middle" class="actor">玩家</text>
+    <line x1="830" y1="156" x2="830" y2="700" class="life"/>
+  </g>
+  <g>
+    <rect x="990" y="100" width="140" height="56" class="head"/>
+    <text x="1060" y="135" text-anchor="middle" class="actor">自动存档</text>
+    <line x1="1060" y1="156" x2="1060" y2="700" class="life"/>
+  </g>
+  <g>
+    <rect x="1160" y="100" width="120" height="56" class="head"/>
+    <text x="1220" y="135" text-anchor="middle" class="actor">运行结果</text>
+    <line x1="1220" y1="156" x2="1220" y2="700" class="life"/>
+  </g>
+
+  <path d="M140 210 H370" class="msg"/>
+  <text x="230" y="200" class="text">编辑 校验 预览后发布 YAML 配置</text>
+
+  <path d="M370 270 H600" class="msg"/>
+  <text x="455" y="260" class="text">启动或进模块时读取发布包</text>
+
+  <path d="M830 330 H600" class="msg"/>
+  <text x="662" y="320" class="text">选择模块 角色 外部金色道具</text>
+
+  <path d="M600 390 H1060" class="msg"/>
+  <text x="760" y="380" class="text">读取或恢复每模块唯一自动存档</text>
+
+  <path d="M600 450 H1220" class="msg"/>
+  <text x="808" y="440" class="text">运行关卡战斗 关卡推进 掉落与结算</text>
+
+  <path d="M600 510 H1060" class="msg"/>
+  <text x="760" y="500" class="text">写入节点推进 模块解锁 长期资产状态</text>
+
+  <path d="M1220 570 H830" class="msg"/>
+  <text x="980" y="560" class="text">返回继续上次 下一节点 开始新游戏结果</text>
+
+  <path d="M1220 630 H140" class="msg"/>
+  <text x="685" y="620" class="text">形成调试验证 发布回滚和问题追踪输入</text>
+</svg>

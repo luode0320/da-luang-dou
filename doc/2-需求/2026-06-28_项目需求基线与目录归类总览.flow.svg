@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760">
+  <rect width="1280" height="760" fill="#FFFFFF"/>
+  <defs>
+    <style>
+      .title { font: 700 28px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #1F2937; }
+      .label { font: 600 18px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #111827; }
+      .note { font: 14px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #374151; }
+      .box { fill: #F8FAFC; stroke: #2563EB; stroke-width: 2; rx: 14; ry: 14; }
+      .line { stroke: #2563EB; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/>
+    </marker>
+  </defs>
+
+  <text x="640" y="52" text-anchor="middle" class="title">项目需求基线主流程</text>
+
+  <rect x="80" y="120" width="180" height="92" class="box"/>
+  <text x="170" y="160" text-anchor="middle" class="label">启动游戏</text>
+  <text x="170" y="188" text-anchor="middle" class="note">进入首页或模块入口</text>
+
+  <rect x="320" y="120" width="180" height="92" class="box"/>
+  <text x="410" y="160" text-anchor="middle" class="label">读取模块状态</text>
+  <text x="410" y="188" text-anchor="middle" class="note">继续上次或开始新游戏</text>
+
+  <rect x="560" y="120" width="180" height="92" class="box"/>
+  <text x="650" y="160" text-anchor="middle" class="label">进入模块地图</text>
+  <text x="650" y="188" text-anchor="middle" class="note">查看节点与解锁状态</text>
+
+  <rect x="800" y="120" width="180" height="92" class="box"/>
+  <text x="890" y="160" text-anchor="middle" class="label">选择角色与道具</text>
+  <text x="890" y="188" text-anchor="middle" class="note">固定武器 固定技能</text>
+
+  <rect x="1040" y="120" width="180" height="92" class="box"/>
+  <text x="1130" y="160" text-anchor="middle" class="label">进入关卡战斗</text>
+  <text x="1130" y="188" text-anchor="middle" class="note">自动攻击 持续清怪</text>
+
+  <rect x="210" y="340" width="220" height="110" class="box"/>
+  <text x="320" y="384" text-anchor="middle" class="label">模块内连续推进</text>
+  <text x="320" y="412" text-anchor="middle" class="note">默认 20 关 默认 60 秒</text>
+  <text x="320" y="436" text-anchor="middle" class="note">关卡之间连续推进</text>
+
+  <rect x="530" y="340" width="220" height="110" class="box"/>
+  <text x="640" y="384" text-anchor="middle" class="label">暂停与成长</text>
+  <text x="640" y="412" text-anchor="middle" class="note">I 键背包暂停</text>
+  <text x="640" y="436" text-anchor="middle" class="note">金币与模块内临时道具</text>
+
+  <rect x="850" y="340" width="220" height="110" class="box"/>
+  <text x="960" y="384" text-anchor="middle" class="label">结算与长期资产</text>
+  <text x="960" y="412" text-anchor="middle" class="note">节点解锁 模块解锁</text>
+  <text x="960" y="436" text-anchor="middle" class="note">永久金色与长期资产保留</text>
+
+  <rect x="440" y="560" width="400" height="110" class="box"/>
+  <text x="640" y="604" text-anchor="middle" class="label">后台配置发布驱动运行时</text>
+  <text x="640" y="632" text-anchor="middle" class="note">后台编辑态 → 发布契约态 → 游戏运行态</text>
+  <text x="640" y="656" text-anchor="middle" class="note">游戏只读取后台发布后的 YAML 配置包</text>
+
+  <path d="M260 166 H320" class="line"/>
+  <path d="M500 166 H560" class="line"/>
+  <path d="M740 166 H800" class="line"/>
+  <path d="M980 166 H1040" class="line"/>
+  <path d="M1130 212 V290 H320 V340" class="line"/>
+  <path d="M430 395 H530" class="line"/>
+  <path d="M750 395 H850" class="line"/>
+  <path d="M960 450 V520 H640 V560" class="line"/>
+</svg>
